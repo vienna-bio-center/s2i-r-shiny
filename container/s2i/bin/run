@@ -11,7 +11,7 @@ run_sleep(){
 }
 
 run_app(){
-	R < app.R
+	R --no-save < app.R
 }
 
 debug(){

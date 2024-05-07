@@ -38,21 +38,8 @@ setup_r_profile(){
   R_PROFILE_FILE=/opt/app-root/src/.Rprofile
   if [ ! -e "${R_PROFILE_FILE}" ]; then
     echo "Creating ${R_PROFILE_FILE}"
-    echo 'options(repos = c(CRAN = "http://cran.rstudio.com"))' >> /opt/app-root/src/.Rprofile
+    echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/bookworm/latest"))' >> /opt/app-root/src/.Rprofile
   fi
-}
-
-check_r_dependencies(){
-  echo "Checking dependencies..."
-  PKGS=$(sed -n 's/library(\(.*\)).*/\1/pg; s/^.*[ (]\([^ :]*\)::.*/\1/pg' *.R | sort -u)
-
-  echo "==== PKGS ====" 
-  echo -e "${PKGS}\n"
-
-  for pkg in $(echo ${PKGS})
-  do
-    echo 'install.packages("'"${pkg}"'", INSTALL_opts=c("--no-docs", "--no-help", "--no-html"))' | R --no-save
-  done
 }
 
 clean_tmp(){
@@ -63,6 +50,6 @@ clean_tmp(){
 # setup_r_profile
 usage
 setup_src_files
+setup_r_profile
 setup_r_file
-check_r_dependencies
 clean_tmp
